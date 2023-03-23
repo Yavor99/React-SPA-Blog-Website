@@ -9,7 +9,7 @@ export default function Header() {
         </div>
         <img 
             className="headerImg"
-            src="https://images.pexels.com/photos/12988675/pexels-photo-12988675.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+            src="https://ast.indus.travel/prod/tour/bannerimage/banner_5cd1aeed54c07_around-the-world.jpg"
             alt=""
         />
     </div>
