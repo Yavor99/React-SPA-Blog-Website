@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 
 import * as postService from './services/postService';
 
@@ -13,8 +13,8 @@ import Write from "./components/pages/write/Write";
 import TopBar from "./components/topBar/TopBar";
 
 
-
 function App() {
+    const navigate = useNavigate();
     const [posts, setPost] = useState([]);
 
     useEffect(() => {
@@ -25,6 +25,14 @@ function App() {
             })
     }, []);
 
+    const onCreatePost = async (data) => {
+        const newPost = await postService.create(data);
+
+        setPost(state => [...state, newPost]);
+
+        navigate('/');
+    }
+
 
     return (
         <>
@@ -34,7 +42,7 @@ function App() {
                 <Route path="/settings" element={<Settings />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
-                <Route path="/write" element={<Write />} />
+                <Route path="/write" element={<Write onCreatePost={onCreatePost}/>} />
                 <Route path="/post/:postId" element={<Single />} />
             </Routes>
 
