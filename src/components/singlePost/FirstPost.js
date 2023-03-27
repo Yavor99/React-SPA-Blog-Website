@@ -38,7 +38,7 @@ export default function FirstPost() {
 					<span className="singlePostAuthor">
 						Author: <b>{post.username}</b>
 					</span>
-					<span className="singlePostDate">{new Date(post.createdAt).toDateString()}</span>
+					
 				</div>
 				<p className="singlePostDesc">
 					{post.description}
