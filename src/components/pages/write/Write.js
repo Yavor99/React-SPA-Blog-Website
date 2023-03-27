@@ -1,13 +1,14 @@
-import { useState } from "react";
 import "./write.css";
+
+import { useForm } from "../../../hooks/useForm";
 
 
 export default function Write({ onCreatePost }) {
-    const [values, setValues] = useState({
+    const {values, changeHandler, onSubmit} = useForm({
         title: '',
         description: '',
         imageUrl: '',
-    });
+    }, onCreatePost);
 
     if (values.imageUrl) {
         const data = new FormData();
@@ -16,15 +17,6 @@ export default function Write({ onCreatePost }) {
         data.append("file", values.imageUrl);
     }
 
-    const onChangeHandler = (e) => {
-        setValues(state => ({ ...state, [e.target.name]: e.target.value }))
-    };
-
-    const onSubmit = (e) => {
-        e.preventDefault();
-
-        onCreatePost(values);
-    }
 
     return (
         
@@ -39,20 +31,20 @@ export default function Write({ onCreatePost }) {
                     />
                
 
-                <form id="create" method="post" onSubmit={onSubmit}>
+                <form id="create" method="POST" onSubmit={onSubmit}>
                     <div className="writeFormGroup">
                         <h1>Tell your story..</h1>
 
                         <label className="leg-title">Title:</label>
-                        <input value={values.title} onChange={onChangeHandler} name="title" type="text" id="title" placeholder="Title"  />
+                        <input value={values.title} onChange={changeHandler} name="title" type="text" id="title" placeholder="Title"  />
 
                         <label htmlFor="category">Category:</label>
-                        <input value={values.category} onChange={onChangeHandler} type="text" id="category" name="category" placeholder="Enter game category..." />
+                        <input value={values.category} onChange={changeHandler} type="text" id="category" name="category" placeholder="Enter game category..." />
 
                         <label htmlFor="game-img">Image:</label>
                         <input
                             value={values.imageUrl}
-                            onChange={onChangeHandler}
+                            onChange={changeHandler}
                             type="text" id="imageUrl"
                             name="imageUrl"
                             placeholder="Upload a photo..."
@@ -64,7 +56,7 @@ export default function Write({ onCreatePost }) {
                             name="description"
                             id="description"
                             value={values.description}
-                            onChange={onChangeHandler}>
+                            onChange={changeHandler}>
 
                         </textarea>
                         <button className="writeSubmit">Publish</button>

@@ -1,6 +1,6 @@
 import * as request from "./requester"
 
-const baseUrl = 'http://localhost:3030/jsonstore/posts'
+const baseUrl = 'http://localhost:3030/data/posts'
 
 export const getAll = async () => {
     const result = await request.get(baseUrl);
@@ -15,8 +15,8 @@ export const getOne = async (postId) => {
     return result;
 } 
 
-export const create = async (postData) => {
-    const result = await request.post(baseUrl, postData);
+export const create = async (postData, token) => {
+    const result = await request.post(baseUrl, postData, token);
 
     return result;
 }

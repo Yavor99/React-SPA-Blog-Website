@@ -1,8 +1,12 @@
-import "./topbar.css"
-import { Link } from "react-router-dom"
+import "./topbar.css";
+import { Link } from "react-router-dom";
+
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
+
 
 export default function TopBar() {
-    const user = false;
+    const { isAuth } = useContext(AuthContext);
   return (
     <div className="top">
         <div className="topLeft">
@@ -24,22 +28,33 @@ export default function TopBar() {
                 <li className="topListItem">
                     <Link className="link" to="/contact">CONTACT</Link>
                 </li>
-                <li className="topListItem">
-                    <Link className="link" to="/write">WRITE</Link>
-                </li>
-                <li className="topListItem">
-                    {user && "LOGOUT"}
-                </li>
+                
+                {isAuth && (
+                    <>
+                        <li className="topListItem">
+                            <Link className="link" to="/write">WRITE</Link>
+                        </li>
+                        <li className="topListItem">
+                            <Link className="link" to="/logout">LOGOUT</Link>
+                        </li>
+                    </>
+                )}
+                
+                
             </ul>
         </div>
         <div className="topRight">
+        
             {
-                user ? (
+                isAuth ? (
+                    <>
                     <img 
-                        className="topImg"
+                        className="topImg"                        
                         src="https://cdn.hswstatic.com/gif/play/0b7f4e9b-f59c-4024-9f06-b3dc12850ab7-1920-1080.jpg"
                         alt=""    
                     />
+                    <Link  to="/settings">Settings</Link>
+                    </>
                 ) : (
                     <ul className="topList">
                         <li className="topListItem">
