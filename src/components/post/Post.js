@@ -6,7 +6,7 @@ export default function Post({
     title,
     description,
     imageUrl,
-    categories
+    category
 }) {
     return (
         <div className="post">
@@ -19,9 +19,9 @@ export default function Post({
             
             <div className="postInfo">
                 <div className="postCat">
-                    {/* {categories.map((c) => (
-                        <span className="postCat">{c.name}</span>
-                    ))} */}
+                    
+                        <span className="postCat">Category:{category}</span>
+                    
                 </div>
                 <Link to={`/post/${_id}`} className="link">
                 <span className="postTitle">

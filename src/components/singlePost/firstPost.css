@@ -26,6 +26,42 @@
     font-size: 16px;
 }
 
+.singlePostLike{
+    float: right;
+    font-size: 15px;
+    margin-left: 10px;
+} 
+
+.like-button {
+    border: none; 
+    outline: none;
+    background-color: transparent;
+    font-size: 15px;
+    font-weight: bold;
+    color: blue;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    padding: 10px 20px;
+    border: 2px solid #333;
+ }
+
+ .disLike-button {
+    border: none; 
+    outline: none;
+    background-color: transparent;
+    font-size: 15px;
+    font-weight: bold;
+    color: red;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    padding: 10px 20px;
+    border: 2px solid #333;
+ }
+
+ .message-button {
+    font-size: 15px;
+ }
+
 .singlePostIcon{
     margin-left: 10px;
     cursor: pointer;
@@ -58,4 +94,8 @@
     margin-left: 20px;
     font-size: 30px;
     font-weight: 600;
+}
+
+.categoryInfo{
+    color: #b39656;
 }

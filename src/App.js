@@ -48,7 +48,7 @@ function App() {
 
     const onLoginSubmit = async (data) => {
         try {
-            const result = await authService.login(data);
+            const result = await authService.login(data, auth.accessToken);
             setAuth(result);
             navigate('/');
         } catch (error) {
@@ -59,7 +59,7 @@ function App() {
 
     const onRegisterSubmit = async (values) => {
         try {
-            const result = await authService.register(values);
+            const result = await authService.register(values, auth.accessToken);
             setAuth(result);
             navigate('/');
         } catch (error) {

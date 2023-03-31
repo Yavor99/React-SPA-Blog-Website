@@ -6,16 +6,10 @@ import { useForm } from "../../../hooks/useForm";
 export default function Write({ onCreatePost }) {
     const {values, changeHandler, onSubmit} = useForm({
         title: '',
+        category: '',
         description: '',
         imageUrl: '',
     }, onCreatePost);
-
-    if (values.imageUrl) {
-        const data = new FormData();
-        const fileName = Date.now() + values.imageUrl.name;
-        data.append("name", fileName);
-        data.append("file", values.imageUrl);
-    }
 
 
     return (
