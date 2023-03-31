@@ -14,6 +14,7 @@ import Single from "./components/pages/single/Single";
 import Write from "./components/pages/write/Write";
 import TopBar from "./components/topBar/TopBar";
 import { Logout } from "./components/pages/logout/Logout";
+import { EditPost } from "./components/pages/edit/EditPost";
 
 
 function App() {
@@ -35,6 +36,14 @@ function App() {
         setPost(state => [...state, newPost]);
 
         navigate('/');
+    };
+
+    const onEditForm = async (values) => {
+        const editedPost = await postService.edit(values._id, values, auth.accessToken);
+
+        setPost(state => state.map(x => x._id === values._id ? editedPost : x));
+
+        navigate(`/post/${values._id}`);
     };
 
     const onLoginSubmit = async (data) => {
@@ -62,7 +71,9 @@ function App() {
         //await authService.logout(auth.accessToken);
 
         setAuth({});
-    }
+    };
+
+    
 
     const context = {
         onLoginSubmit,
@@ -88,6 +99,7 @@ function App() {
                 <Route path="/logout" element={<Logout />} />
                 <Route path="/write" element={<Write onCreatePost={onCreatePost}/>} />
                 <Route path="/post/:postId" element={<Single />} />
+                <Route path="/post/:postId/edit" element={<EditPost onEditForm={onEditForm}/>}></Route>
             </Routes>
         </>
         </AuthContext.Provider>

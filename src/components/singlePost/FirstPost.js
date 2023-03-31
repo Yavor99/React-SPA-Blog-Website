@@ -1,12 +1,12 @@
 import "./firstPost.css";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
 
 import * as postService from '../../services/postService';
 import { AuthContext } from "../../context/AuthContext";
 
 export default function FirstPost() {
-	const {userId, userUsername} = useContext(AuthContext);
+	const {userId, userUsername, isAuth} = useContext(AuthContext);
 	const { postId } = useParams();
 	const [post, onePost] = useState({});
 
@@ -18,12 +18,20 @@ export default function FirstPost() {
 	}, [postId]);
 
 	const isOwner = post._ownerId === userId;
+
 	let owner;
 
 	if(isOwner) {
 		owner = userUsername;
-	}
+	} else {
+		owner = post._ownerId;
+	};
 	
+	const onDelete = async() => {
+		if (isAuth) {
+			await postService.deletePost(postId);
+		}
+	};
 
 
 	return (
@@ -41,8 +49,8 @@ export default function FirstPost() {
 					{post.title}
 					{isOwner && (
 						<div className="singlePostEdit">
-							<i className="singlePostIcon fa-solid fa-pen-to-square"></i>
-							<i className="singlePostIcon fa-sharp fa-solid fa-trash"></i>
+							<Link to={`/post/${post._id}/edit`} ><i className="singlePostIcon fa-solid fa-pen-to-square"></i></Link>
+							<i className="singlePostIcon fa-sharp fa-solid fa-trash" onClick={onDelete}></i>
 						</div>
 					)}
 					
