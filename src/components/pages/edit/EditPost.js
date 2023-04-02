@@ -7,9 +7,8 @@ import * as postService from "../../../services/postService";
 
 export const EditPost = ({ onEditForm }) => {
     const { postId } = useParams();
-    const [post, setPostEdit] = useState({});
-
-    const { values, changeHandler, onSubmit } = useForm({
+    
+    const { values, changeHandler, onSubmit, changeValues } = useForm({
         _id: postId,
         title: '',
         description: '',
@@ -19,70 +18,41 @@ export const EditPost = ({ onEditForm }) => {
     useEffect(() => {
 		postService.getOne(postId)
 			.then(result => {
-				setPostEdit(result);
+				changeValues(result);
 			})
 	}, [postId]);
 
     return (
-        <section id="edit-page" className="edit">
+        <div className="write">
 
-        <div className="edit">
-     
-                <img
-                    className="writeImg"
-                    src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8bW91bnRhaW5zfGVufDB8fDB8fA%3D%3D&w=1000&q=80"
-                    alt=""
-                />
-           
+            <img
+                className="writeImg"
+                src={values.imageUrl}
+                alt=""
+            />
 
-            <form id="edit" method="POST" onSubmit={onSubmit}>
+            <form className="writeForm" method="POST" onSubmit={onSubmit}>
                 <div className="writeFormGroup">
-                    <h1>Tell your story..</h1>
-
-                    <label className="leg-title">Title:</label>
-                    <input
-                        value={values.title}
-                        onChange={changeHandler}
-                        name="title"
-                        type="text"
-                        id="title" 
-                        placeholder={post.title}  
-                    />
-
-                    <label htmlFor="category">Category:</label>
-                    <input
-                        value={values.category}
-                        onChange={changeHandler}
-                        type="text"
-                        id="category"
-                        name="category"     
-                        placeholder={post.category} 
-                    />
-
-                    <label htmlFor="game-img">Image:</label>
-                    <input
-                        value={values.imageUrl}
-                        onChange={changeHandler}
-                        type="text" id="imageUrl"
-                        name="imageUrl"
-                        placeholder={post.imageUrl}
-                    />
+                    {/* <label htmlFor="fileInput">
+                        <i className="writeIcon fa-sharp fa-solid fa-plus"></i>
+                    </label> */}
                     
-
-                    <label htmlFor="description">Write something:</label>
+                    <input value={values.title} onChange={changeHandler} name="title" type="text" placeholder="Title" className="writeInput" autoFocus={true} />
+                    <input value={values.category} onChange={changeHandler} name="category" type="text" placeholder="Category" className="writeInput" />
+                    <input value={values.imageUrl} onChange={changeHandler} name="imageUrl" placeholder="imageUrl" type="text" className="writeInput"/>
+                </div>
+                <div className="writeFormGroup">
                     <textarea
-                        name="description"
-                        id="description"
                         value={values.description}
                         onChange={changeHandler}
-                        placeholder={post.description}
-                    >
-                    </textarea>
-
-                    <button className="writeSubmit">Edit</button>
+                        name="description"
+                        placeholder="Tell your story..."
+                        type="text"
+                        className="writeInput writeText"
+                    ></textarea>
                 </div>
+                <button className="writeSubmit">Publish</button>
             </form>
         </div>
-    </section>
     )
 };

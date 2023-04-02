@@ -17,7 +17,7 @@ export const getOne = async (postId) => {
 
 export const create = async (postData, token) => {
     const result = await request.post(baseUrl, postData, token);
-
+    
     return result;
 };
 

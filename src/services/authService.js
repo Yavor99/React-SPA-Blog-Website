@@ -6,4 +6,10 @@ export const login = (loginData, token) => request.post(`${baseUrl}/login`, logi
 
 export const register = (data, token) => request.post(`${baseUrl}/register`, data, token);
 
-export const logout = (token) => request.get(`${baseUrl}/logout`, token);
+export const logout = (accessToken) =>
+    fetch(`${baseUrl}/logout`, {
+        headers: {
+            'X-Authorization': accessToken
+        }
+    });
+

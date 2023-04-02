@@ -25,12 +25,12 @@ function App() {
     useEffect(() => {
         postService.getAll()
             .then(result => {
-                console.log(result);
                 setPost(result)
             })
     }, []);
 
     const onCreatePost = async (data) => {
+        
         const newPost = await postService.create(data, auth.accessToken);
 
         setPost(state => [...state, newPost]);
@@ -46,6 +46,13 @@ function App() {
         navigate(`/post/${values._id}`);
     };
 
+    const onDelete = async (postId) => {
+        console.log(auth.accessToken);
+        await postService.deletePost(postId, auth.accessToken);
+        
+        setPost(state => state.filter(x => x._id !== postId));
+    }
+    
     const onLoginSubmit = async (data) => {
         try {
             const result = await authService.login(data, auth.accessToken);
@@ -68,12 +75,12 @@ function App() {
     };
 
     const onLogout = async () => {
-        //await authService.logout(auth.accessToken);
+        await authService.logout(auth.accessToken);
 
         setAuth({});
     };
 
-    
+
 
     const context = {
         onLoginSubmit,
@@ -98,7 +105,7 @@ function App() {
                 <Route path="/register" element={<Register />} />
                 <Route path="/logout" element={<Logout />} />
                 <Route path="/write" element={<Write onCreatePost={onCreatePost}/>} />
-                <Route path="/post/:postId" element={<Single />} />
+                <Route path="/post/:postId" element={<Single onDelete={onDelete}/>} />
                 <Route path="/post/:postId/edit" element={<EditPost onEditForm={onEditForm}/>}></Route>
             </Routes>
         </>

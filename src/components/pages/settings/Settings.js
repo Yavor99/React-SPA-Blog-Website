@@ -13,7 +13,7 @@ export default function Settings() {
             setImage(URL.createObjectURL(files))
         }
 
-    }
+    };
 
     return (
         <div className="settings">
@@ -22,6 +22,7 @@ export default function Settings() {
                     <span className="settingsUpdateTitle">Update Your Account</span>
                     <span className="settingsDeleteTitle">Delete Your Account</span>
                 </div>
+
                 <form className="settingsForm">
                     <label>Profile Picture</label>
                     <div className="settingsPP">
@@ -49,10 +50,15 @@ export default function Settings() {
                     </div>
                     <label>Username</label>
                     <input type="text" placeholder="Yavor" />
+
                     <label>Email</label>
                     <input type="text" placeholder="yavor@abv.bg" />
-                    <label>Password</label>
-                    <input type="password" />
+
+                    {/* <label>Password</label>
+                    <input type="password" /> */}
+                    
+                    <label>Description</label>
+                    <input type="description" />
                     <button className="settingsSubmit">Update</button>
                 </form>
             </div>

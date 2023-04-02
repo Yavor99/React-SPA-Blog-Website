@@ -5,10 +5,12 @@ import { useEffect, useState, useContext } from "react";
 import * as postService from '../../services/postService';
 import { AuthContext } from "../../context/AuthContext";
 
-export default function FirstPost() {
-	const { userId, userUsername, isAuth } = useContext(AuthContext);
+export default function FirstPost({onDelete}) {
+	const { userId, userUsername } = useContext(AuthContext);
 	const { postId } = useParams();
+
 	const [post, onePost] = useState({});
+
 	const [likes, setLikes] = useState(0);
 	const [isClicked, setIsClicked] = useState(true);
 
@@ -18,6 +20,7 @@ export default function FirstPost() {
 				onePost(result);
 			})
 	}, [postId]);
+
 
 	const isOwner = post._ownerId === userId;
 
@@ -29,13 +32,6 @@ export default function FirstPost() {
 		owner = post._ownerId;
 	};
 
-	const onDelete = async () => {
-		if (isAuth) {
-			await postService.deletePost(postId);
-		}
-	};
-
-
 	const onUpLikes = () => {	
 		if(isClicked){
 			setLikes(likes + 1);
@@ -45,17 +41,13 @@ export default function FirstPost() {
 		};
 
 		setIsClicked(!isClicked)	
+	};
+
+	const submetDelete = (e) => {
+		e.preventDefault();
 		
-	} 
-
-	// const onDissLike = () => {
-	// 	if(isClicked) {
-	// 		setLikes(likes - 1);
-	// 	}
-	// }
-
-	
-
+		onDelete(post._id);
+	}
 
 	return (
 		<div className="firstPost">
@@ -80,7 +72,7 @@ export default function FirstPost() {
 					{isOwner && (
 						<div className="singlePostEdit">
 							<Link to={`/post/${post._id}/edit`} ><i className="singlePostIcon fa-solid fa-pen-to-square"></i></Link>
-							<i className="singlePostIcon fa-sharp fa-solid fa-trash" onClick={onDelete}></i>
+							<i className="singlePostIcon fa-sharp fa-solid fa-trash" onClick={submetDelete}></i>
 						</div>
 					)}
 
