@@ -19,7 +19,7 @@ import { EditPost } from "./components/pages/edit/EditPost";
 
 function App() {
     const navigate = useNavigate();
-    const [posts, setPost] = useState([]);
+    const [posts, setPost] = useState(null);
     const [auth, setAuth] = useState({});
 
     useEffect(() => {
@@ -47,7 +47,6 @@ function App() {
     };
 
     const onDelete = async (postId) => {
-        console.log(auth.accessToken);
         await postService.deletePost(postId, auth.accessToken);
         
         setPost(state => state.filter(x => x._id !== postId));

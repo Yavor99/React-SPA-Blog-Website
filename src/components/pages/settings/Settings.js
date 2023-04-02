@@ -1,19 +1,25 @@
 import "./settings.css"
 import Sidebar from "../../sidebars/Sidebar";
 import { useState } from "react";
+import { useForm } from "../../../hooks/useForm";
 
 export default function Settings() {
-    const [image, setImage] = useState(null);
+    const [image, setImage] = useState([]);
     const [fileName, setFileName] = useState("No selected file");
 
     const fileInput = (files) => {
         setFileName(files);
+        console.log(fileName);
 
         if (files) {
             setImage(URL.createObjectURL(files))
         }
 
     };
+
+    // const { values, changeHandler, onSubmit } = useForm({
+
+    // })
 
     return (
         <div className="settings">
@@ -23,7 +29,7 @@ export default function Settings() {
                     <span className="settingsDeleteTitle">Delete Your Account</span>
                 </div>
 
-                <form className="settingsForm">
+                <form className="settingsForm" method="POST" >
                     <label>Profile Picture</label>
                     <div className="settingsPP">
                         {image ?
@@ -49,10 +55,10 @@ export default function Settings() {
 
                     </div>
                     <label>Username</label>
-                    <input type="text" placeholder="Yavor" />
+                    <input type="text" placeholder="username" />
 
                     <label>Email</label>
-                    <input type="text" placeholder="yavor@abv.bg" />
+                    <input type="text" placeholder="username@abv.bg" />
 
                     {/* <label>Password</label>
                     <input type="password" /> */}
