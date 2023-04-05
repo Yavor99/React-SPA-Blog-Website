@@ -25,4 +25,6 @@ export const edit = (postId, data, token) => request.put(`${baseUrl}/${postId}`,
 
 export const deletePost = (postId, token) => request.del(`${baseUrl}/${postId}`, token);
 
+export const updatePost = (postId, likes, token) => request.patch(`${baseUrl}/${postId}`, likes, token)
+
 

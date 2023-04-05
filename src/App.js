@@ -15,20 +15,30 @@ import Write from "./components/pages/write/Write";
 import TopBar from "./components/topBar/TopBar";
 import { Logout } from "./components/pages/logout/Logout";
 import { EditPost } from "./components/pages/edit/EditPost";
+import About from "./components/pages/about/About";
 
 
 function App() {
     const navigate = useNavigate();
-    const [posts, setPost] = useState(null);
+    const [posts, setPost] = useState([]);
     const [auth, setAuth] = useState({});
+    const [account, setAccount] = useState({});
 
     useEffect(() => {
         postService.getAll()
             .then(result => {
                 setPost(result)
+                
             })
     }, []);
 
+    const likeClick = async (postId, likes) => {
+       
+        const updatePost = await postService.edit(postId, likes, auth.accessToken);
+
+        setPost(state => state.map(p => p._id === postId ? updatePost : p))
+    };
+ 
     const onCreatePost = async (data) => {
         
         const newPost = await postService.create(data, auth.accessToken);
@@ -46,11 +56,13 @@ function App() {
         navigate(`/post/${values._id}`);
     };
 
-    const onDelete = async (postId) => {
+
+    const onDelete = async (postId, token) => {
         await postService.deletePost(postId, auth.accessToken);
         
         setPost(state => state.filter(x => x._id !== postId));
-    }
+    };
+
     
     const onLoginSubmit = async (data) => {
         try {
@@ -77,14 +89,29 @@ function App() {
         await authService.logout(auth.accessToken);
 
         setAuth({});
+
+        setAccount({});
     };
 
+    const onAccountSettings = async (data) => {
+        const result = data;
+        console.log(result);
+        
+        setAccount(result);
+
+
+        navigate('/');
+    }
 
 
     const context = {
+        likeClick,
         onLoginSubmit,
         onRegisterSubmit,
         onLogout,
+        name: account.username,
+        description: account.description,
+        image: account.imageUrl,
         userId: auth._id,
         token: auth.accessToken,
         userEmail: auth.email,
@@ -99,12 +126,13 @@ function App() {
             <TopBar />
             <Routes>
                 <Route path="/" element={<Home posts={posts}/>} />
-                <Route path="/settings" element={<Settings />} />
+                <Route path="/settings" element={<Settings onAccountSettings={onAccountSettings}/>} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/logout" element={<Logout />} />
+                <Route path="/about" element={<About />} />
                 <Route path="/write" element={<Write onCreatePost={onCreatePost}/>} />
-                <Route path="/post/:postId" element={<Single onDelete={onDelete}/>} />
+                <Route path="/post/:postId" element={<Single onDelete={onDelete} />} />
                 <Route path="/post/:postId/edit" element={<EditPost onEditForm={onEditForm}/>}></Route>
             </Routes>
         </>

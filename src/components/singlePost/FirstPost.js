@@ -5,8 +5,8 @@ import { useEffect, useState, useContext } from "react";
 import * as postService from '../../services/postService';
 import { AuthContext } from "../../context/AuthContext";
 
-export default function FirstPost({onDelete}) {
-	const { userId, userUsername } = useContext(AuthContext);
+export default function FirstPost({ onDelete }) {
+	const { userId, userUsername, isAuth, token, likeClick } = useContext(AuthContext);
 	const { postId } = useParams();
 
 	const [post, onePost] = useState({});
@@ -14,6 +14,7 @@ export default function FirstPost({onDelete}) {
 	const [likes, setLikes] = useState(0);
 	const [isClicked, setIsClicked] = useState(true);
 
+	
 	useEffect(() => {
 		postService.getOne(postId)
 			.then(result => {
@@ -32,22 +33,24 @@ export default function FirstPost({onDelete}) {
 		owner = post._ownerId;
 	};
 
-	const onUpLikes = () => {	
-		if(isClicked){
-			setLikes(likes + 1);
+	const onUpLikes = (e) => {
+		if (isClicked) {
+			setLikes(likes + 1);			
 		} else {
-			console.log(isClicked);
 			setLikes(likes - 1);
 		};
+		setIsClicked(!isClicked);
 
-		setIsClicked(!isClicked)	
+		likeClick(post._id, likes);
 	};
+
 
 	const submetDelete = (e) => {
 		e.preventDefault();
-		
-		onDelete(post._id);
-	}
+
+		onDelete(post._id, token);
+	};
+
 
 	return (
 		<div className="firstPost">
@@ -76,21 +79,27 @@ export default function FirstPost({onDelete}) {
 						</div>
 					)}
 
+
 					{!isOwner && (
 						<div className="singlePostLike">
 							
-							<div className="Likes">
-								<span>
-									{likes}
-								</span>
-							</div>
+								<div className="Likes">
+									<span>
+										Likes: {likes}
+									</span>
+								</div>
+							
+
 							{isClicked && (
-								<i className="like-button fa-regular fa-thumbs-up" onClick={onUpLikes}></i>
+								<i className="like-button fa-regular fa-thumbs-up"
+									   onClick={onUpLikes}									
+								></i>
 							)}
 							{!isClicked && (
-								<i class="disLike-button fa-solid fa-thumbs-down" onClick={onUpLikes}></i> 
+								<i class="disLike-button fa-solid fa-thumbs-down"
+									   onClick={onUpLikes}									
+								></i>
 							)}
-																			
 						</div>
 					)}
 
