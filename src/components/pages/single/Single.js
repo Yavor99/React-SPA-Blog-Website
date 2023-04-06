@@ -2,10 +2,10 @@ import Sidebar from "../../sidebars/Sidebar";
 import FirstPost from "../../singlePost/FirstPost";
 import "./single.css"
 
-export default function Single({onDelete, handleSubmitLikes}) {
+export default function Single() {
   return (
     <div className="single">
-        <FirstPost onDelete={onDelete} />
+        <FirstPost />
         <Sidebar />
     </div>
   )

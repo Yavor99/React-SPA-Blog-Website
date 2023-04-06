@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 
 import { Routes, Route, useNavigate } from "react-router-dom";
 
-import * as postService from './services/postService';
-import * as authService from './services/authService';
+import { postServiceFactory } from './services/postService';
+import {authServiceFactory} from './services/authService';
 import { AuthContext } from "./context/AuthContext";
+import { useService } from "./hooks/UseService";
 
 import Home from "./components/pages/home/Home";
 import Login from "./components/pages/login/Login";
@@ -18,12 +19,15 @@ import { EditPost } from "./components/pages/edit/EditPost";
 import About from "./components/pages/about/About";
 
 
+
 function App() {
     const navigate = useNavigate();
     const [posts, setPost] = useState([]);
     const [auth, setAuth] = useState({});
     const [account, setAccount] = useState({});
-
+    const postService = postServiceFactory(auth.accessToken);
+    const authService = authServiceFactory(auth.accessToken);
+    
     useEffect(() => {
         postService.getAll()
             .then(result => {
@@ -54,13 +58,6 @@ function App() {
         setPost(state => state.map(x => x._id === values._id ? editedPost : x));
 
         navigate(`/post/${values._id}`);
-    };
-
-
-    const onDelete = async (postId, token) => {
-        await postService.deletePost(postId, auth.accessToken);
-        
-        setPost(state => state.filter(x => x._id !== postId));
     };
 
     
@@ -95,10 +92,8 @@ function App() {
 
     const onAccountSettings = async (data) => {
         const result = data;
-        console.log(result);
         
         setAccount(result);
-
 
         navigate('/');
     }
@@ -132,7 +127,7 @@ function App() {
                 <Route path="/logout" element={<Logout />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/write" element={<Write onCreatePost={onCreatePost}/>} />
-                <Route path="/post/:postId" element={<Single onDelete={onDelete} />} />
+                <Route path="/post/:postId" element={<Single />} />
                 <Route path="/post/:postId/edit" element={<EditPost onEditForm={onEditForm}/>}></Route>
             </Routes>
         </>

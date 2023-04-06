@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useForm } from "../../../hooks/useForm";
+import { useService } from "../../../hooks/UseService";
 
-import * as postService from "../../../services/postService";
+import { postServiceFactory } from "../../../services/postService";
 
 
 export const EditPost = ({ onEditForm }) => {
     const { postId } = useParams();
+    const postService = useService(postServiceFactory)
     
     const { values, changeHandler, onSubmit, changeValues } = useForm({
         _id: postId,

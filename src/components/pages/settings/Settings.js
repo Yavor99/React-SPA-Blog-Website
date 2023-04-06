@@ -4,19 +4,7 @@ import { useState } from "react";
 import { useForm } from "../../../hooks/useForm";
 
 export default function Settings({ onAccountSettings }) {
-    const [image, setImage] = useState([]);
-    const [fileName, setFileName] = useState("No selected file");
-
-    const fileInput = (files) => {
-        setFileName(files);
-        console.log(fileName);
-
-        if (files) {
-            setImage(URL.createObjectURL(files))
-        }
-
-    };
-
+    
     const { values, changeHandler, onSubmit } = useForm({
         username: '',
         email: '',

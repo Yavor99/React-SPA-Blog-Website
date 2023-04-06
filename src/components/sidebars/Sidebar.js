@@ -4,12 +4,14 @@ import { useEffect, useState, useContext } from "react";
 
 import { AuthContext } from "../../context/AuthContext";
 
-import * as postService from "../../services/postService";
+import { postServiceFactory } from "../../services/postService";
+import { useService } from "../../hooks/UseService";
 
 
 export default function Sidebar() {
     const [postCategory, setCategory] = useState([]);
     const { description, image } = useContext(AuthContext);
+    const postService = useService(postServiceFactory);
 
     useEffect(() => {
         postService.getAll()
@@ -37,10 +39,16 @@ export default function Sidebar() {
                         src="https://www.mountainprofessor.com/images/Mountain-People-peruvian-girl.jpg"
                     />
                 }
-
-                <p>
-                    {description}
-                </p>
+                {description ? 
+                    <p>
+                        {description}
+                    </p>
+                    :
+                    <p>
+                        Tell something about you..
+                    </p>
+                }
+                
             </div>
             <div className="sidebarItem">
                 <span className="sidebarTitle">Categories</span>

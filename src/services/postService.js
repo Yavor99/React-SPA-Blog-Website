@@ -1,30 +1,39 @@
-import * as request from "./requester"
+import { requestFactory }from "./requester"
 
 const baseUrl = 'http://localhost:3030/data/posts';
 
-export const getAll = async () => {
-    const result = await request.get(baseUrl);
-    const posts = Object.values(result);
+export const postServiceFactory = (token) => {
+    const request = requestFactory(token);
 
-    return posts;
-};
+    const getAll = async () => {
+        const result = await request.get(baseUrl);
+        const posts = Object.values(result);
 
-export const getOne = async (postId) => {
-    const result = await request.get(`${baseUrl}/${postId}`);
+        return posts;
+    };
 
-    return result;
-};
+    const getOne = async (postId) => {
+        const result = await request.get(`${baseUrl}/${postId}`);
 
-export const create = async (postData, token) => {
-    const result = await request.post(baseUrl, postData, token);
-    
-    return result;
-};
+        return result;
+    };
 
-export const edit = (postId, data, token) => request.put(`${baseUrl}/${postId}`, data, token);
+    const create = async (postData) => {
+        const result = await request.post(baseUrl, postData);
 
-export const deletePost = (postId, token) => request.del(`${baseUrl}/${postId}`, token);
+        return result;
+    };
 
-export const updatePost = (postId, likes, token) => request.patch(`${baseUrl}/${postId}`, likes, token)
+    const edit = (postId, data) => request.put(`${baseUrl}/${postId}`, data);
 
+    const deletePost = (postId) => request.delete(`${baseUrl}/${postId}`);
+
+    return {
+        getAll,
+        getOne,
+        create,
+        edit,
+        delete: deletePost
+    };
+}
 

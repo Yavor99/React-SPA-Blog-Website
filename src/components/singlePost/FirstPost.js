@@ -1,13 +1,16 @@
 import "./firstPost.css";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
 
-import * as postService from '../../services/postService';
+import { postServiceFactory } from '../../services/postService';
 import { AuthContext } from "../../context/AuthContext";
+import { useService } from "../../hooks/UseService";
 
-export default function FirstPost({ onDelete }) {
+export default function FirstPost() {
 	const { userId, userUsername, isAuth, token, likeClick } = useContext(AuthContext);
 	const { postId } = useParams();
+	const postService = useService(postServiceFactory);
+	const navigate = useNavigate();
 
 	const [post, onePost] = useState({});
 
@@ -45,11 +48,11 @@ export default function FirstPost({ onDelete }) {
 	};
 
 
-	const submetDelete = (e) => {
-		e.preventDefault();
-
-		onDelete(post._id, token);
-	};
+	const onDeleteClick = async () => {
+        await postService.delete(post._id);
+        
+		navigate('/');
+    };
 
 
 	return (
@@ -75,7 +78,7 @@ export default function FirstPost({ onDelete }) {
 					{isOwner && (
 						<div className="singlePostEdit">
 							<Link to={`/post/${post._id}/edit`} ><i className="singlePostIcon fa-solid fa-pen-to-square"></i></Link>
-							<i className="singlePostIcon fa-sharp fa-solid fa-trash" onClick={submetDelete}></i>
+							<i className="singlePostIcon fa-sharp fa-solid fa-trash" onClick={onDeleteClick}></i>
 						</div>
 					)}
 
