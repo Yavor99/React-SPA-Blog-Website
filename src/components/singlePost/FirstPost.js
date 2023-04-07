@@ -6,17 +6,22 @@ import { postServiceFactory } from '../../services/postService';
 import { AuthContext } from "../../context/AuthContext";
 import { useService } from "../../hooks/UseService";
 
-export default function FirstPost() {
-	const { userId, userUsername, isAuth, token, likeClick } = useContext(AuthContext);
+export default function FirstPost({
+	onLikeClick,
+	deletePost
+}) {
+	const { userId, userUsername, isAuth } = useContext(AuthContext);
 	const { postId } = useParams();
 	const postService = useService(postServiceFactory);
 	const navigate = useNavigate();
 
 	const [post, onePost] = useState({});
 
-	const [likes, setLikes] = useState(0);
+	// const [likes, setLikes] = useState(0);
 	const [isClicked, setIsClicked] = useState(true);
 
+	let likes = [];
+	for(let i = 0; i < post.likes; i++);
 
 	useEffect(() => {
 		postService.getOne(postId)
@@ -36,25 +41,27 @@ export default function FirstPost() {
 		owner = post._ownerId;
 	};
 
-	const onUpLikes = (e) => {
-		if (isClicked) {
-			setLikes(likes + 1);
-		} else {
-			setLikes(likes - 1);
-		};
-		setIsClicked(!isClicked);
+	// const onUpLikes = (e) => {
+	// 	if (isClicked) {
+	// 		setLikes(likes + 1);
+	// 	} else {
+	// 		setLikes(likes - 1);
+	// 	};
+	// 	setIsClicked(!isClicked);
 
-		likeClick(post._id, likes);
-	};
+	// 	likeClick(post._id, likes);
+	// };
 
 
 	const onDeleteClick = async () => {
 		if (window.confirm("Are you sure you want to delete this post?")) {
 			await postService.delete(post._id);
 
+			deletePost(post._id);
+
 			navigate('/');
 		};
-	}
+	};
 
 
 	return (
@@ -90,19 +97,19 @@ export default function FirstPost() {
 
 							<div className="Likes">
 								<span>
-									Likes: {likes}
+									Likes: {post.likes}
 								</span>
 							</div>
 
 
 							{isClicked && (
 								<i className="like-button fa-regular fa-thumbs-up"
-									onClick={onUpLikes}
+									onClick={() => onLikeClick(post._id)}
 								></i>
 							)}
 							{!isClicked && (
 								<i class="disLike-button fa-solid fa-thumbs-down"
-									onClick={onUpLikes}
+									onClick={() => onLikeClick(post._id)}
 								></i>
 							)}
 						</div>

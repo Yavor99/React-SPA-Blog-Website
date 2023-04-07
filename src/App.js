@@ -17,7 +17,7 @@ import { Logout } from "./components/pages/logout/Logout";
 import { EditPost } from "./components/pages/edit/EditPost";
 import About from "./components/pages/about/About";
 import { SettingsProvider } from "./context/SettingsContext";
-
+import { RouteGuard } from "./components/common/RouteGuard";
 
 
 function App() {
@@ -31,16 +31,13 @@ function App() {
     useEffect(() => {
         postService.getAll()
             .then(result => {
-                setPost(result)
-                
+                setPost(result.map(x => ({...x, likes: 0})));              
             })
     }, []);
 
-    // const likeClick = async (postId, likes) => {
-       
-    //     const updatePost = await postService.edit(postId, likes);
-
-    // };
+    const onLikeClick = (postId) => {
+        setPost(state => state.map(x => x._id === postId ? {...x, likes: x.likes + 1} : x));
+    }
  
     const onCreatePost = async (data) => {
         
@@ -59,6 +56,10 @@ function App() {
         navigate(`/post/${values._id}`);
     };
 
+    const deletePost = (postId) => {
+        setPost(state => state.filter(post => post._id !== postId));
+    };
+
     
 
     return (
@@ -72,10 +73,16 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/logout" element={<Logout />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/write" element={<Write onCreatePost={onCreatePost}/>} />
-                <Route path="/post/:postId" element={<Single />} />
-                <Route path="/post/:postId/edit" element={<EditPost onEditForm={onEditForm}/>}></Route>
+                <Route path="/about" element={<About />} />  
+                <Route path="/write" element={
+                    <RouteGuard>
+                        <Write onCreatePost={onCreatePost} />
+                    </RouteGuard>
+                } />
+                <Route path="/post/:postId" element={<Single onLikeClick={onLikeClick} deletePost={deletePost}/>} />
+                <Route element={<RouteGuard />}>
+                    <Route path="/post/:postId/edit" element={<EditPost onEditForm={onEditForm}/>} />
+                </Route>
             </Routes>
         </>
         </SettingsProvider>

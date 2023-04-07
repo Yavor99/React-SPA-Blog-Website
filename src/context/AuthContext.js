@@ -42,8 +42,6 @@ export const AuthProvider = ({
         await authService.logout(auth.accessToken);
 
         setAuth({});
-
-        // setAccount({});
     };
 
 
@@ -64,5 +62,12 @@ export const AuthProvider = ({
                 {children}
             </AuthContext.Provider>        
         </>
-    )
+    );
 };
+
+
+export const useAuthContext = () => {
+    const context = useContext(AuthContext);
+
+    return context;
+}
