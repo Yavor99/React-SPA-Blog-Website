@@ -2,15 +2,15 @@ import "./sidebar.css"
 
 import { useEffect, useState, useContext } from "react";
 
-import { AuthContext } from "../../context/AuthContext";
 
 import { postServiceFactory } from "../../services/postService";
 import { useService } from "../../hooks/UseService";
+import { SettingsContext } from "../../context/SettingsContext";
 
 
 export default function Sidebar() {
     const [postCategory, setCategory] = useState([]);
-    const { description, image } = useContext(AuthContext);
+    const { description, image } = useContext(SettingsContext);
     const postService = useService(postServiceFactory);
 
     useEffect(() => {
@@ -25,10 +25,7 @@ export default function Sidebar() {
         <div className="sidebar">
             <div className="sidebarItem">
                 <span className="sidebarTitle">About Me</span>
-                {/* <img
-                src="https://www.mountainprofessor.com/images/Mountain-People-peruvian-girl.jpg"
-                alt=""
-            /> */}
+                
 
                 {image ?
                     <img 
@@ -39,6 +36,7 @@ export default function Sidebar() {
                         src="https://www.mountainprofessor.com/images/Mountain-People-peruvian-girl.jpg"
                     />
                 }
+
                 {description ? 
                     <p>
                         {description}
@@ -55,7 +53,7 @@ export default function Sidebar() {
                 <ul className="sidebarList">
 
                     {postCategory.map(p =>
-                        <li className="sidebarListItem" key={p._id}> {p.category} </li>)
+                        <li className="sidebarListItem" key={p._id}> {p.category}</li>)
                     }
 
                 </ul>

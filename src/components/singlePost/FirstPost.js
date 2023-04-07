@@ -17,7 +17,7 @@ export default function FirstPost() {
 	const [likes, setLikes] = useState(0);
 	const [isClicked, setIsClicked] = useState(true);
 
-	
+
 	useEffect(() => {
 		postService.getOne(postId)
 			.then(result => {
@@ -38,7 +38,7 @@ export default function FirstPost() {
 
 	const onUpLikes = (e) => {
 		if (isClicked) {
-			setLikes(likes + 1);			
+			setLikes(likes + 1);
 		} else {
 			setLikes(likes - 1);
 		};
@@ -49,10 +49,12 @@ export default function FirstPost() {
 
 
 	const onDeleteClick = async () => {
-        await postService.delete(post._id);
-        
-		navigate('/');
-    };
+		if (window.confirm("Are you sure you want to delete this post?")) {
+			await postService.delete(post._id);
+
+			navigate('/');
+		};
+	}
 
 
 	return (
@@ -85,22 +87,22 @@ export default function FirstPost() {
 
 					{!isOwner && (
 						<div className="singlePostLike">
-							
-								<div className="Likes">
-									<span>
-										Likes: {likes}
-									</span>
-								</div>
-							
+
+							<div className="Likes">
+								<span>
+									Likes: {likes}
+								</span>
+							</div>
+
 
 							{isClicked && (
 								<i className="like-button fa-regular fa-thumbs-up"
-									   onClick={onUpLikes}									
+									onClick={onUpLikes}
 								></i>
 							)}
 							{!isClicked && (
 								<i class="disLike-button fa-solid fa-thumbs-down"
-									   onClick={onUpLikes}									
+									onClick={onUpLikes}
 								></i>
 							)}
 						</div>

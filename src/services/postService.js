@@ -14,8 +14,13 @@ export const postServiceFactory = (token) => {
 
     const getOne = async (postId) => {
         const result = await request.get(`${baseUrl}/${postId}`);
-
         return result;
+        // const searchQuery = encodeURIComponent(`postId="${postId}"`);
+        // const relationQuery = encodeURIComponent(`author=_ownerId:users`);
+
+        // const result = await request.get(`${baseUrl}?where=${searchQuery}&load=${relationQuery}`);
+
+        // return result;
     };
 
     const create = async (postData) => {
@@ -35,5 +40,5 @@ export const postServiceFactory = (token) => {
         edit,
         delete: deletePost
     };
-}
+};
 

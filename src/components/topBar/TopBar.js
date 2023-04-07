@@ -3,10 +3,12 @@ import { Link } from "react-router-dom";
 
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
+import { SettingsContext } from "../../context/SettingsContext";
 
 
 export default function TopBar() {
-    const { isAuth, image } = useContext(AuthContext);
+    const { isAuth } = useContext(AuthContext);
+    const { image } = useContext(SettingsContext);
     return (
         <div className="top">
             <div className="topLeft">
