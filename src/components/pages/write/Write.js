@@ -10,7 +10,7 @@ export default function Write({ onCreatePost }) {
         category: '',
         description: '',
         imageUrl: '',
-        likes: [],
+        likes: 0,
     }, onCreatePost);
 
 

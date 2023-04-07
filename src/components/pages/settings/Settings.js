@@ -6,7 +6,7 @@ import { SettingsContext } from "../../../context/SettingsContext";
 
 export default function Settings() {
 
-    const {onAccountSettings} = useContext(SettingsContext)
+    const {onAccountSettings, changeInfo} = useContext(SettingsContext)
     
     const { values, changeHandler, onSubmit } = useForm({
         _id: useId(),
@@ -21,7 +21,7 @@ export default function Settings() {
             <div className="settingsWrapper">
                 <div className="settingsTitle">
                     <span className="settingsUpdateTitle">Update Your Account</span>
-                    <span className="settingsDeleteTitle">Delete Your Account</span>
+                    <span onClick={changeInfo} className="settingsDeleteTitle">Change Your Account info</span>
                 </div>
 
                 <form className="settingsForm" method="POST" onSubmit={onSubmit}>

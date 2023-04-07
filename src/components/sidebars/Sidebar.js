@@ -43,7 +43,7 @@ export default function Sidebar() {
                     </p>
                     :
                     <p>
-                        Tell something about you..
+                        
                     </p>
                 }
                 

@@ -18,7 +18,14 @@ export const SettingsProvider = ({
         navigate('/');
     };
 
+    const changeInfo = () => {
+        setAccount({});
+
+        navigate('/');
+    }
+
     const settingsValues = {
+        changeInfo,
         setAccount,
         onAccountSettings,
         name: account.username,

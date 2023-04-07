@@ -4,11 +4,12 @@ import "./single.css"
 
 export default function Single({
   onLikeClick,
-  deletePost
+  deletePost,
+  posts
 }) {
   return (
     <div className="single">
-        <FirstPost onLikeClick={onLikeClick} deletePost={deletePost}/>
+        <FirstPost onLikeClick={onLikeClick} deletePost={deletePost} />
         <Sidebar />
     </div>
   )

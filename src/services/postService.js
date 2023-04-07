@@ -31,6 +31,8 @@ export const postServiceFactory = (token) => {
 
     const edit = (postId, data) => request.put(`${baseUrl}/${postId}`, data);
 
+    const like = (postId, like) => request.put(`${baseUrl}/${postId}`, { likes: like})
+
     const deletePost = (postId) => request.delete(`${baseUrl}/${postId}`);
 
     return {
@@ -38,6 +40,7 @@ export const postServiceFactory = (token) => {
         getOne,
         create,
         edit,
+        like,
         delete: deletePost
     };
 };

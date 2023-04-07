@@ -18,6 +18,7 @@ import { EditPost } from "./components/pages/edit/EditPost";
 import About from "./components/pages/about/About";
 import { SettingsProvider } from "./context/SettingsContext";
 import { RouteGuard } from "./components/common/RouteGuard";
+import Contact from "./components/pages/contact/Contanct";
 
 
 function App() {
@@ -35,7 +36,8 @@ function App() {
             })
     }, []);
 
-    const onLikeClick = (postId) => {
+    const onLikeClick = async (postId, like) => {
+        // await postService.like(postId, like)
         setPost(state => state.map(x => x._id === postId ? {...x, likes: x.likes + 1} : x));
     }
  
@@ -70,6 +72,7 @@ function App() {
             <Routes>
                 <Route path="/" element={<Home posts={posts}/>} />
                 <Route path="/settings" element={<Settings />} />
+                <Route path="/contact" element={<Contact />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/logout" element={<Logout />} />
@@ -79,7 +82,7 @@ function App() {
                         <Write onCreatePost={onCreatePost} />
                     </RouteGuard>
                 } />
-                <Route path="/post/:postId" element={<Single onLikeClick={onLikeClick} deletePost={deletePost}/>} />
+                <Route path="/post/:postId" element={<Single onLikeClick={onLikeClick} deletePost={deletePost} posts={posts}/>} />
                 <Route element={<RouteGuard />}>
                     <Route path="/post/:postId/edit" element={<EditPost onEditForm={onEditForm}/>} />
                 </Route>

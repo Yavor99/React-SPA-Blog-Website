@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 
 import { authServiceFactory } from '../services/authService';
-import { SettingsContext } from "./SettingsContext";
 
 export const AuthContext = createContext();
 

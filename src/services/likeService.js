@@ -12,3 +12,8 @@ export const getAll = async (postId) => {
     return likes;
 };
 
+export const like = async (postId, like) => {
+    const result = await request.post(baseUrl, { postId, like });
+
+    return result;
+} 
