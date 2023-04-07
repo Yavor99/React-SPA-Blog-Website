@@ -101,7 +101,7 @@ export default function FirstPost({
 					)}
 
 
-					{!isOwner && (
+					{!isOwner && isAuth && (
 						<div className="singlePostLike">
 
 							<div className="Likes">
@@ -141,16 +141,21 @@ export default function FirstPost({
 					{post.description}
 				</p>
 
-				<div className="main-container">
-					<form>
-						<div className="comment-flexbox">
-							<h3 className="comment-text">Add Comment</h3>
-							<textarea className="input-box"/>
-							<button className="comment-button">Submit</button>
+				{isAuth && (
+					<>
+						<div className="main-container">
+							<form>
+								<div className="comment-flexbox">
+									<h3 className="comment-text">Add Comment</h3>
+									<textarea className="input-box" />
+									<button className="comment-button">Submit</button>
+								</div>
+							</form>
 						</div>
-					</form>
-				</div>
-				<div className="comment-container"></div>
+						<div className="comment-container"></div>
+					</>
+				)}
+
 			</div>
 		</div>
 	)
