@@ -5,9 +5,9 @@ import { useEffect, useState, useContext } from "react";
 import { postServiceFactory } from '../../services/postService';
 import { AuthContext } from "../../context/AuthContext";
 import { useService } from "../../hooks/UseService";
+import * as commentService from "../../services/commentService";
 
-import { likeService } from "../../services/likeService";
-import { useLikeForm } from "../../hooks/useLikeForm";
+import { Comments } from "./comments/Comments";
 
 export default function FirstPost({
 	onLikeClick,
@@ -25,11 +25,25 @@ export default function FirstPost({
 
 
 	useEffect(() => {
-		postService.getOne(postId)
-			.then(result => {
-				onePost(result);
-			})
+		Promise.all([
+			postService.getOne(postId),
+			commentService.getAll(postId),
+		]).then(([postData, comments]) => {
+			onePost({
+				...postData,
+				comments,
+			});
+		});
 	}, [postId]);
+
+	const onCommentSubmit = async (values) => {
+		const response = await commentService.create(postId, values.comment);
+
+		onePost(state => ({
+			...state,
+			comments: [...state.comments, response],
+		}));
+	};
 
 
 	const isOwner = post._ownerId === userId;
@@ -71,7 +85,6 @@ export default function FirstPost({
 			navigate('/');
 		};
 	};
-
 
 	return (
 		<div className="firstPost">
@@ -143,18 +156,23 @@ export default function FirstPost({
 
 				{isAuth && (
 					<>
-						<div className="main-container">
-							<form>
-								<div className="comment-flexbox">
-									<h3 className="comment-text">Add Comment</h3>
-									<textarea className="input-box" />
-									<button className="comment-button">Submit</button>
-								</div>
-							</form>
-						</div>
-						<div className="comment-container"></div>
+						<Comments onCommentSubmit={onCommentSubmit} />
 					</>
 				)}
+
+				{/* {isAuth && ( */}
+					<div className="comment-container">
+						<h2>Comments:</h2>
+						<ul>
+							{post.comments && post.comments?.map(x => (
+								<li key={x._id}>
+									<p>{x.comment}</p>
+								</li>
+							))}
+						</ul>
+					</div>
+				{/* )} */}
+
 
 			</div>
 		</div>

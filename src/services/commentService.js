@@ -1,19 +1,19 @@
 import { requestFactory } from "./requester";
 
-const baseUrl = 'http://localhost:3030/data/likes';
+const baseUrl = 'http://localhost:3030/data/comments';
 const request = requestFactory();
 
 export const getAll = async (postId) => {
     const query = encodeURIComponent(`postId="${postId}"`);
 
     const result = await request.get(`${baseUrl}?where=${query}`);
-    const likes = Object.values(result);
+    const comments = Object.values(result);
 
-    return likes;
+    return comments;
 };
 
-export const like = async (postId, like) => {
-    const result = await request.post(baseUrl, { postId, like });
+export const create = async (postId, comment) => {
+    const result = await request.post(baseUrl, { postId, comment });
 
     return result;
 } 

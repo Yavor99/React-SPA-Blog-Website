@@ -149,8 +149,9 @@
 .comment-container{
     height: 75px;
     width: 465px;
-    background-color: grey;
+    background-color: white;
     border-radius: 5px;
     margin: 10px 0;
     word-break: break-all;
+    display: table-cell;
 }
