@@ -37,7 +37,6 @@ function App() {
     }, []);
 
     const onLikeClick = async (postId, like) => {
-        // await postService.like(postId, like)
         setPost(state => state.map(x => x._id === postId ? {...x, likes: x.likes + 1} : x));
     }
  

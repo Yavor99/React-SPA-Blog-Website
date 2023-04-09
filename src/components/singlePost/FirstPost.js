@@ -69,12 +69,6 @@ export default function FirstPost({
 
 	};
 
-	// const likeClick = async (postId) => {
-	// 	await likeService.like(postId, like)
-
-	// 	console.log(postId);
-	// };
-
 
 	const onDeleteClick = async () => {
 		if (window.confirm("Are you sure you want to delete this post?")) {
